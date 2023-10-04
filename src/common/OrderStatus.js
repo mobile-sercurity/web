@@ -23,4 +23,8 @@ export const OrderStatusDetail = [
     value: "Delivered",
     label: "Delivered",
   },
+  {
+    value: "Shipped",
+    label: "Shipped",
+  },
 ];

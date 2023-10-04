@@ -44,9 +44,11 @@ const ModalUpdateStatusOrder = (props) => {
   const handleOnSubmit = async (values, formikHelper) => {
     const data = {
       ...values,
+      id: id,
       status: values?.status?.value,
     };
-    updateStatusOrderApi(data, id)
+    console.log("data...", data);
+    updateStatusOrderApi(data)
       .then((res) => {
         if (res) {
           getAllOrder();
@@ -88,7 +90,7 @@ const ModalUpdateStatusOrder = (props) => {
                   <Box>
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={12} lg={12}>
-                        <Typography> Brand code</Typography>
+                        <Typography> Status</Typography>
                         <Select
                           className="basic-single"
                           classNamePrefix="select"

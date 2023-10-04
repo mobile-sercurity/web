@@ -4,7 +4,13 @@ import { config } from "../utils/axiosconfig";
 import { HTTP_MGMT } from "../utils/domain-config";
 
 export const filterColorApi = async (data, params) => {
+<<<<<<< HEAD
   return await adminRequest.post(`${HTTP_MGMT}/api/color/filter`, data, { params });
+=======
+  return await adminRequest.post(`${HTTP_MGMT}/api/color/filter`, data, {
+    params,
+  });
+>>>>>>> d7cbd9f51969982ed2a67b0f5c51089cd8f6535e
 };
 
 export const createColorApi = async (data) => {
