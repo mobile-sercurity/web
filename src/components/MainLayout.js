@@ -80,26 +80,26 @@ const MainLayout = () => {
                   icon: <AiOutlineShoppingCart className="fs-4" />,
                   label: "Product List",
                 },
-                {
-                  key: "brand",
-                  icon: <SiBrandfolder className="fs-4" />,
-                  label: "Brand",
-                },
-                {
-                  key: "list-brand",
-                  icon: <SiBrandfolder className="fs-4" />,
-                  label: "Brand List ",
-                },
-                {
-                  key: "category",
-                  icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Category",
-                },
-                {
-                  key: "list-category",
-                  icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Category List",
-                },
+                // {
+                //   key: "brand",
+                //   icon: <SiBrandfolder className="fs-4" />,
+                //   label: "Brand",
+                // },
+                // {
+                //   key: "list-brand",
+                //   icon: <SiBrandfolder className="fs-4" />,
+                //   label: "Brand List ",
+                // },
+                // {
+                //   key: "category",
+                //   icon: <BiCategoryAlt className="fs-4" />,
+                //   label: "Category",
+                // },
+                // {
+                //   key: "list-category",
+                //   icon: <BiCategoryAlt className="fs-4" />,
+                //   label: "Category List",
+                // },
                 {
                   key: "color",
                   icon: <AiOutlineBgColors className="fs-4" />,
@@ -123,23 +123,23 @@ const MainLayout = () => {
               icon: <FaClipboardList className="fs-4" />,
               label: "Orders",
             },
-            {
-              key: "marketing",
-              icon: <RiCouponLine className="fs-4" />,
-              label: "Marketing",
-              children: [
-                {
-                  key: "coupon",
-                  icon: <ImBlog className="fs-4" />,
-                  label: "Add Coupon",
-                },
-                {
-                  key: "coupon-list",
-                  icon: <RiCouponLine className="fs-4" />,
-                  label: "Coupon List",
-                },
-              ],
-            },
+            // {
+            //   key: "marketing",
+            //   icon: <RiCouponLine className="fs-4" />,
+            //   label: "Marketing",
+            //   children: [
+            //     {
+            //       key: "coupon",
+            //       icon: <ImBlog className="fs-4" />,
+            //       label: "Add Coupon",
+            //     },
+            //     {
+            //       key: "coupon-list",
+            //       icon: <RiCouponLine className="fs-4" />,
+            //       label: "Coupon List",
+            //     },
+            //   ],
+            // },
             // {
             //   key: "blogs",
             //   icon: <FaBloggerB className="fs-4" />,

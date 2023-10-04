@@ -4,7 +4,9 @@ import { config } from "../utils/axiosconfig";
 import { HTTP_MGMT } from "../utils/domain-config";
 
 export const filterSizeApi = async (data, params) => {
-  return await adminRequest.post(`${HTTP_MGMT}/size/filter`, data, { params });
+  return await adminRequest.post(`${HTTP_MGMT}/api/size/filter`, data, {
+    params,
+  });
 };
 
 export const createSizeApi = async (data) => {

@@ -3,13 +3,12 @@ import { Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import Select from "react-select";
-import { adminRequest } from "../../utils/axios-config-admin";
 import { getProduct, updateProduct } from "../../api/product.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { filterSizeApi } from "../../api/size.api";
-import { filterCategoryApi } from "../../api/category.api";
 import { MdOutlineClose } from "react-icons/md";
+import { filterColorApi } from "../../api/color.api";
 
 const customStyles = {
   control: (provided, state) => ({
@@ -25,13 +24,12 @@ const customStyles = {
 
 const FormUpdateProduct = () => {
   const defaultInitialValues = {
-    productCode: "",
     name: "",
-    description: "",
-    size: "",
     price: "",
-    brandCode: "",
-    categories: "",
+    quantity: "",
+    supplier: "",
+    category: "",
+    size: "",
     color: "",
     image: "",
   };
@@ -41,27 +39,24 @@ const FormUpdateProduct = () => {
   const paramProductCode = params.productCode;
 
   const [initialValues, setInitialValues] = useState(defaultInitialValues);
-  const [brandDetail, setBrandDetail] = useState([]);
   const [colorDetail, setColorDetail] = useState([]);
   const [sizeDetail, setSizeDetail] = useState([]);
-  const [categoryDetail, setCategoryDetail] = useState([]);
   const [productDetail, setProductDetail] = useState(null);
   const [images, setImages] = useState([]);
+  console.log("images///", images);
+  const [arrImageIds, setArrImageIds] = useState([]);
+  console.log("arrImageIds...", arrImageIds);
 
   const validationSchema = Yup.object({
-    productCode: Yup.string().nullable().required("Product code is required"),
     name: Yup.string().nullable().required("Name is Required"),
-    description: Yup.string().nullable().required("Description is Required"),
+    supplier: Yup.string().required("supplier is Required"),
+    category: Yup.string().required("category is Required"),
+    price: Yup.number().required("Price is Required"),
+    quantity: Yup.number().required("Quantity is Required"),
     size: Yup.array()
       .nullable()
       .min(1, "Pick at least one size")
       .required("Size is required"),
-    price: Yup.number().nullable().required("Price is Required"),
-    brandCode: Yup.object().nullable().required("Name is Required"),
-    categories: Yup.array()
-      .nullable()
-      .min(1, "Pick at least one categories")
-      .required("categories is Required"),
     color: Yup.array()
       .nullable()
       .min(1, "Pick at least one color")
@@ -69,33 +64,15 @@ const FormUpdateProduct = () => {
     image: Yup.string().nullable().required("image is Required"),
   });
 
-  const getBrandsDetail = async () => {
-    const data = {
-      brandCode: "",
-      name: "",
-    };
-    const params = {
-      page: 1,
-      limit: 10000,
-    };
-
-    await adminRequest.post("/brand/filter", data, { params }).then((res) => {
-      const data = res?.data?.data;
-      setBrandDetail(data);
-    });
-  };
-
   const getColorsDetail = async () => {
     const data = {
-      colorCode: "",
-      colorName: "",
+      color: "",
     };
     const params = {
       page: 1,
       limit: 10000,
     };
-
-    await adminRequest.post("/color/filter", data, { params }).then((res) => {
+    await filterColorApi(data, params).then((res) => {
       const data = res?.data?.data;
       setColorDetail(data);
     });
@@ -103,14 +80,13 @@ const FormUpdateProduct = () => {
 
   const buildInitialValues = (product) => {
     const valueForm = {
-      productCode: product.productCode,
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      brandCode: product.brand,
-      categories: product.categoriesArrObj,
-      size: product.sizes,
-      color: product.colors,
+      name: product?.product_name,
+      price: product?.price,
+      quantity: product?.quantity,
+      supplier: product?.supplier,
+      category: product?.category,
+      size: product?.sizes,
+      color: product?.colors,
       image: product.image,
     };
     return valueForm;
@@ -118,8 +94,7 @@ const FormUpdateProduct = () => {
 
   const getSizesDetail = async () => {
     const data = {
-      sizeCode: "",
-      sizeName: "",
+      size: "",
     };
     const params = {
       page: 1,
@@ -130,25 +105,6 @@ const FormUpdateProduct = () => {
       .then((res) => {
         const data = res?.data?.data;
         setSizeDetail(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getCategoryDetail = async () => {
-    const data = {
-      categoryName: "",
-    };
-    const params = {
-      page: 1,
-      limit: 10000,
-    };
-
-    filterCategoryApi(data, params)
-      .then((res) => {
-        const data = res?.data?.data;
-        setCategoryDetail(data);
       })
       .catch((err) => {
         console.log(err);
@@ -174,10 +130,14 @@ const FormUpdateProduct = () => {
   const getProductDetail = async () => {
     getProduct(paramProductCode)
       .then((res) => {
-        const imagesDetail = res?.data?.image;
-        setProductDetail(res?.data);
-        setInitialValues(buildInitialValues(res?.data));
+        const imagesDetail = res?.data?.data?.images?.map(
+          (item) => item?.image
+        );
+        const imageIds = res?.data?.data?.images?.map((item) => item?.id);
+        setProductDetail(res?.data?.data);
+        setInitialValues(buildInitialValues(res?.data?.data));
         convertToFiles(imagesDetail);
+        setArrImageIds(imageIds);
       })
       .catch((err) => {
         console.log("err", err);
@@ -185,20 +145,10 @@ const FormUpdateProduct = () => {
   };
 
   useEffect(() => {
-    getBrandsDetail();
     getColorsDetail();
     getSizesDetail();
-    getCategoryDetail();
     getProductDetail();
   }, []);
-
-  const handleChangeBrandCode = (formik) => (e) => {
-    formik.setFieldValue("brandCode", e);
-  };
-
-  const handleChangeCategories = (formik) => (e) => {
-    formik.setFieldValue("categories", e);
-  };
 
   const handleChangeSize = (formik) => (e) => {
     formik.setFieldValue("size", e);
@@ -219,43 +169,32 @@ const FormUpdateProduct = () => {
   };
 
   const handleDeleteImage = (item, index) => {
-    const newArrFile = images?.filter((item, i) => index !== i);
+    const newArrFile = images?.filter((item_1, i) => index !== i);
     setImages(newArrFile);
   };
 
   const buildBodyUpload = (values) => {
-    const arrSize = values?.size?.map((item) =>
-      item?.sizeCode ? item?.sizeCode : item
-    );
+    const arrSize = values?.size?.map((item) => (item?.id ? item?.id : item));
 
-    const arrColor = values?.color?.map((item) =>
-      item?.colorCode ? item?.colorCode : item
-    );
-
-    const arrCategories = values?.categories?.map((item) =>
-      item?.categoryName ? item?.categoryName : item
-    );
+    const arrColor = values?.color?.map((item) => (item?.id ? item?.id : item));
 
     const bodyFormData = new FormData();
-    bodyFormData.append("productCode", values.productCode);
-    bodyFormData.append("brandCode", values.brandCode?.brandCode);
+    bodyFormData.append("id", Number(paramProductCode));
     bodyFormData.append("name", values.name);
     bodyFormData.append("price", Number(values?.price));
-    bodyFormData.append("description", values.description);
+    bodyFormData.append("quantity", Number(values?.quantity));
+    bodyFormData.append("supplier", values.supplier);
+    bodyFormData.append("category", values.category);
+    // bodyFormData.append("imageDel",);
 
     for (let index = 0; index < arrSize.length; index++) {
       const element = arrSize[index];
-      bodyFormData.append("size", element);
+      bodyFormData.append("sizeIds", element);
     }
 
     for (let index = 0; index < arrColor.length; index++) {
       const element = arrColor[index];
-      bodyFormData.append("color", element);
-    }
-
-    for (let index = 0; index < arrCategories.length; index++) {
-      const element = arrCategories[index];
-      bodyFormData.append("categories", element);
+      bodyFormData.append("colorIds", element);
     }
 
     for (let index = 0; index < images.length; index++) {
@@ -268,7 +207,7 @@ const FormUpdateProduct = () => {
   const handleOnSubmit = async (formik) => {
     const values = formik?.values;
     const newValues = buildBodyUpload(values);
-    updateProduct(newValues, paramProductCode)
+    await updateProduct(newValues, paramProductCode)
       .then((res) => {
         toast.success("Update product successful !");
         navigate("/admin/list-product");
@@ -297,24 +236,6 @@ const FormUpdateProduct = () => {
                   <Grid item xs={12} md={12} lg={12}>
                     <TextField
                       fullWidth
-                      id="productCode"
-                      name="productCode"
-                      label="Product Code"
-                      value={formik.values.productCode}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.productCode &&
-                        Boolean(formik.errors.productCode)
-                      }
-                      helperText={
-                        formik.touched.productCode && formik.errors.productCode
-                      }
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={12} lg={12}>
-                    <TextField
-                      fullWidth
                       id="name"
                       name="name"
                       label="Name"
@@ -322,24 +243,6 @@ const FormUpdateProduct = () => {
                       onChange={formik.handleChange}
                       error={formik.touched.name && Boolean(formik.errors.name)}
                       helperText={formik.touched.name && formik.errors.name}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={12} lg={12}>
-                    <TextField
-                      fullWidth
-                      id="description"
-                      name="description"
-                      label="Description"
-                      value={formik.values.description}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.description &&
-                        Boolean(formik.errors.description)
-                      }
-                      helperText={
-                        formik.touched.description && formik.errors.description
-                      }
                     />
                   </Grid>
 
@@ -358,53 +261,61 @@ const FormUpdateProduct = () => {
                     />
                   </Grid>
 
+                  {/* Quantity */}
                   <Grid item xs={12} md={12} lg={12}>
-                    <Typography> Brand code</Typography>
-                    <Select
-                      className="basic-single"
-                      classNamePrefix="select"
+                    <TextField
                       fullWidth
-                      isClearable={true}
-                      name="brandCode"
-                      id="brandCode"
-                      type="text"
-                      placeholder="Select Brand Code"
-                      onBlur={formik.handleBlur}
-                      onChange={handleChangeBrandCode(formik)}
-                      value={formik.values.brandCode}
-                      options={brandDetail}
-                      getOptionLabel={(option) => option.name}
-                      getOptionValue={(option) => option.brandCode}
-                      styles={customStyles}
+                      id="quantity"
+                      name="quantity"
+                      label="quantity"
+                      value={formik.values.quantity}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.quantity &&
+                        Boolean(formik.errors.quantity)
+                      }
+                      helperText={
+                        formik.touched.quantity && formik.errors.quantity
+                      }
                     />
-                    <div className="error">
-                      {formik.touched.brandCode && formik.errors.brandCode}
-                    </div>
                   </Grid>
 
+                  {/* supplier */}
                   <Grid item xs={12} md={12} lg={12}>
-                    <Typography> Categories</Typography>
-                    <Select
-                      className="basic-single"
-                      classNamePrefix="select"
-                      isMulti
+                    <TextField
                       fullWidth
-                      isClearable={true}
-                      name="categories"
-                      id="categories"
-                      type="text"
-                      placeholder="Select Categories"
-                      onBlur={formik.handleBlur}
-                      onChange={handleChangeCategories(formik)}
-                      value={formik.values.categories}
-                      options={categoryDetail}
-                      styles={customStyles}
-                      getOptionLabel={(option) => option.categoryName}
-                      getOptionValue={(option) => option.categoryName}
+                      id="supplier"
+                      name="supplier"
+                      label="supplier"
+                      value={formik.values.supplier}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.supplier &&
+                        Boolean(formik.errors.supplier)
+                      }
+                      helperText={
+                        formik.touched.supplier && formik.errors.supplier
+                      }
                     />
-                    <div className="error">
-                      {formik.touched.categories && formik.errors.categories}
-                    </div>
+                  </Grid>
+
+                  {/* category */}
+                  <Grid item xs={12} md={12} lg={12}>
+                    <TextField
+                      fullWidth
+                      id="category"
+                      name="category"
+                      label="category"
+                      value={formik.values.category}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.category &&
+                        Boolean(formik.errors.category)
+                      }
+                      helperText={
+                        formik.touched.category && formik.errors.category
+                      }
+                    />
                   </Grid>
 
                   {/* Size */}
@@ -425,7 +336,7 @@ const FormUpdateProduct = () => {
                       value={formik.values.size}
                       options={sizeDetail}
                       getOptionLabel={(option) => option.sizeName}
-                      getOptionValue={(option) => option.sizeCode}
+                      getOptionValue={(option) => option.id}
                       styles={customStyles}
                     />
                     <div className="error">
@@ -451,7 +362,7 @@ const FormUpdateProduct = () => {
                       value={formik.values.color}
                       options={colorDetail}
                       getOptionLabel={(option) => option.colorName}
-                      getOptionValue={(option) => option.colorCode}
+                      getOptionValue={(option) => option.id}
                       styles={customStyles}
                       menuPlacement="top"
                     />
@@ -461,18 +372,6 @@ const FormUpdateProduct = () => {
                   </Grid>
 
                   <Grid item xs={12} md={12} lg={12}>
-                    {/* <TextField
-                      fullWidth
-                      id="image"
-                      name="image"
-                      label="Image"
-                      value={formik.values.image}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.image && Boolean(formik.errors.image)
-                      }
-                      helperText={formik.touched.image && formik.errors.image}
-                    /> */}
                     <input
                       type="file"
                       label="Enter Product image"
@@ -484,6 +383,7 @@ const FormUpdateProduct = () => {
                     <div style={{ display: "flex" }}>
                       {images?.length > 0 &&
                         images?.map((item, index) => {
+                          console.log("item...", item);
                           item.preview = URL.createObjectURL(item);
                           return (
                             <div

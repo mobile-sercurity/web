@@ -8,12 +8,15 @@ export const getAllOrderApi = async () => {
 };
 
 export const getOrderByIdApi = async (id) => {
-  return await adminRequest.post(`${HTTP_MGMT}/order/get-orders-user-id/${id}`);
+  return await adminRequest.get(`${HTTP_MGMT}/orders/getById/${id}`);
 };
 
-export const updateStatusOrderApi = async (data, id) => {
-  return await adminRequest.put(
-    `${HTTP_MGMT}/order/update-order-status/${id}`,
-    data
-  );
+export const updateStatusOrderApi = async (data) => {
+  return await adminRequest.post(`${HTTP_MGMT}/orders/update`, data);
+};
+
+export const filterOrderApi = async (data, params) => {
+  return await adminRequest.post(`${HTTP_MGMT}/orders/filter`, data, {
+    params,
+  });
 };
