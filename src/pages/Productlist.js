@@ -13,22 +13,13 @@ import ModalDeleteProduct from "../modal/ModalDeleteProduct";
 import FormSearchProduct from "./product/FormSearchProduct";
 const columns = [
   {
-    title: "productCode",
-    dataIndex: "productCode",
+    title: "ID",
+    dataIndex: "id",
   },
   {
     title: "Name",
     dataIndex: "name",
     sorter: (a, b) => a.title.length - b.title.length,
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-  },
-  {
-    title: "Brand",
-    dataIndex: "brand",
-    sorter: (a, b) => a.brand.length - b.brand.length,
   },
   {
     title: "Category",
@@ -59,17 +50,16 @@ const Productlist = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    productCode: "",
-    brandCode: "",
-    name: "",
-    color: [],
-    size: [],
+    productName: "",
+    colorIds: [],
+    sizeIds: [],
   };
 
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [productDetail, setProductDetail] = useState(null);
   const [openModalDeleteProduct, setOpenModalDeleteProduct] = useState(false);
+  const [reload, setReload] = useState(0);
   const [itemProduct, setItemProduct] = useState(null);
 
   const getProductDetail = async () => {
@@ -79,9 +69,9 @@ const Productlist = () => {
     };
     filterProductApi(initialValues, params)
       .then((res) => {
-        const data = res?.data?.data;
+        const data = res?.data?.products;
         setProductDetail(data);
-        setTotalCount(res?.data?.pagination?.totalPages);
+        setTotalCount(res?.data?.totalPage);
       })
       .catch((err) => {
         toast.error(err);
@@ -89,14 +79,8 @@ const Productlist = () => {
   };
 
   useEffect(() => {
-    // dispatch(getProducts());
     getProductDetail();
-  }, [page]);
-
-  useEffect(() => {
-    // dispatch(getProducts());
-    getProductDetail();
-  }, [openModalDeleteProduct]);
+  }, [page, reload]);
 
   const handleClickBtnAddProduct = () => {
     navigate("/admin/product");
@@ -113,12 +97,13 @@ const Productlist = () => {
 
   const handleDeleteProduct = () => {
     const data = {
-      productCode: itemProduct?.productCode,
+      id: itemProduct?.id,
     };
     deleteProduct(data)
       .then((res) => {
         if (res) {
           toast.success("Delete product successful !");
+          setReload(reload + 1);
         }
       })
       .catch((err) => {
@@ -126,8 +111,8 @@ const Productlist = () => {
       });
   };
 
-  const handleClickBtnUpdate = (productCode) => {
-    navigate(`/admin/update-product/${productCode}`);
+  const handleClickBtnUpdate = (id) => {
+    navigate(`/admin/update-product/${id}`);
   };
 
   // const productState = useSelector((state) => state.product.products);
@@ -135,22 +120,22 @@ const Productlist = () => {
   for (let i = 0; i < productDetail?.length; i++) {
     data1.push({
       key: i + 1,
-      productCode: productDetail[i].productCode,
-      name: productDetail[i].name,
-      description: productDetail[i].description.replace(/<\/?[^>]+(>|$)/g, ""),
-      brand: productDetail[i].brand?.name,
-      category: productDetail[i].categories + ",",
-      color: productDetail[i].colors?.map((item) => item?.colorName) + ",",
-      size: productDetail[i].size + ",",
-      price: `${productDetail[i].price.toLocaleString()}`,
+      id: productDetail[i]?.id ?? "",
+      name: productDetail[i]?.product_name ?? "",
+      category: productDetail[i].category ? productDetail[i].category : "",
+      color: productDetail[i].colors
+        ? productDetail[i].colors?.map((item) => item?.colorName) + ","
+        : "",
+      size: productDetail[i]?.sizes
+        ? productDetail[i]?.sizes?.map((item) => item?.sizeName) + ","
+        : "",
+      price: `${productDetail[i]?.price?.toLocaleString()}`,
       action: (
         <>
           <Box>
             <IconButton
               className="ms-3 fs-3 text-danger"
-              onClick={() =>
-                handleClickBtnUpdate(productDetail[i]?.productCode)
-              }
+              onClick={() => handleClickBtnUpdate(productDetail[i]?.id)}
             >
               <BiEdit />
             </IconButton>

@@ -9,11 +9,9 @@ const FormSearchProduct = (props) => {
   const { page, setProductDetail, setTotalCount } = props;
 
   const initialValues = {
-    productCode: "",
-    brandCode: "",
-    name: "",
-    color: [],
-    size: [],
+    productName: "",
+    colorIds: [],
+    sizeIds: [],
   };
 
   const validationSchema = Yup.object({});
@@ -32,9 +30,9 @@ const FormSearchProduct = (props) => {
       limit: PAGE_SIZE,
     };
     filterProductApi(newValues, params).then((res) => {
-      const data = res?.data?.data;
+      const data = res?.data?.products;
       setProductDetail(data);
-      setTotalCount(res?.data?.pagination?.totalPages);
+      setTotalCount(res?.data?.totalPage);
     });
   };
 
@@ -69,42 +67,23 @@ const FormSearchProduct = (props) => {
                   <Grid item xs={12} md={6} lg={4}>
                     <TextField
                       fullWidth
-                      id="productCode"
-                      name="productCode"
-                      label="Product Code"
-                      value={formik.values.productCode}
+                      id="productName"
+                      name="productName"
+                      label="Product Name"
+                      value={formik.values.productName}
                       onChange={formik.handleChange}
                       error={
-                        formik.touched.productCode &&
-                        Boolean(formik.errors.productCode)
+                        formik.touched.productName &&
+                        Boolean(formik.errors.productName)
                       }
                       helperText={
-                        formik.touched.productCode && formik.errors.productCode
+                        formik.touched.productName && formik.errors.productName
                       }
                       size="small"
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={6} lg={4}>
-                    <TextField
-                      fullWidth
-                      id="brandCode"
-                      name="brandCode"
-                      label="Brand Code"
-                      value={formik.values.brandCode}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.brandCode &&
-                        Boolean(formik.errors.brandCode)
-                      }
-                      helperText={
-                        formik.touched.brandCode && formik.errors.brandCode
-                      }
-                      size="small"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={6} lg={4}>
+                  {/* <Grid item xs={12} md={6} lg={4}>
                     <TextField
                       fullWidth
                       id="name"
@@ -116,7 +95,7 @@ const FormSearchProduct = (props) => {
                       helperText={formik.touched.name && formik.errors.name}
                       size="small"
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid
                     item
                     xs={12}
