@@ -35,7 +35,7 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess && user?.isAdmin) {
       navigate("admin");
-      // toast.success("Login successful !");
+      toast.success("Login successful !");
     } else {
       navigate("");
     }

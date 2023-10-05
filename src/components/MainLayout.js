@@ -213,7 +213,7 @@ const MainLayout = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <h5 className="mb-0">{userData?.userName}</h5>
+                <h5 className="mb-0">{userData?.name}</h5>
                 <p className="mb-0">{userData?.email}</p>
               </div>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -221,7 +221,7 @@ const MainLayout = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
-                    to={`/admin/profile/${userData?._id}`}
+                    to={`/admin/profile/${userData?.id}`}
                   >
                     View Profile
                   </Link>

@@ -26,7 +26,6 @@ const getOrder = async (id) => {
 
 const getCurrentUser = async (id) => {
   const response = await axios.get(`${base_url}users/current-user/${id}`);
-
   return response.data;
 };
 
