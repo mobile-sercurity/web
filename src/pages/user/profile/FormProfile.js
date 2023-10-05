@@ -6,11 +6,11 @@ const FormProfile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const paramId = params.id;
-  const currentUser = useSelector((state) => state.auth.currentUser?.user);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const handleEditProfile = () => {
     navigate(
-      `/admin/edit-profile/${currentUser?._id ? currentUser?._id : paramId}`
+      `/admin/edit-profile/${currentUser?.id ? currentUser?.id : paramId}`
     );
   };
 
@@ -37,16 +37,16 @@ const FormProfile = () => {
           >
             <li className="info-profile-item">
               <span className="font-weight-500">User name: </span>{" "}
-              {currentUser?.userName}
+              {currentUser?.name}
             </li>
             <li className="info-profile-item">
               <span className="font-weight-500">Email: </span>{" "}
               {currentUser?.email}
             </li>
-            <li className="info-profile-item">
+            {/* <li className="info-profile-item">
               <span className="font-weight-500">Mobile Phone: </span>{" "}
               {currentUser?.phone}
-            </li>
+            </li> */}
             <li className="info-profile-item">
               <span className="font-weight-500">Admin: </span>{" "}
               {currentUser?.isAdmin ? "True" : "False"}
