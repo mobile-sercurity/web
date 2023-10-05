@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { filterSizeApi } from "../../api/size.api";
 import { MdOutlineClose } from "react-icons/md";
 import { filterColorApi } from "../../api/color.api";
+import { base_url } from "../../utils/baseUrl";
 
 const customStyles = {
   control: (provided, state) => ({
@@ -433,7 +434,7 @@ const FormUpdateProduct = () => {
                           }}
                         >
                           <img
-                            src={item?.image}
+                            src={`${base_url}${item?.image}`}
                             alt="images"
                             style={{
                               height: "76px",
