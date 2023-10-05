@@ -43,9 +43,8 @@ const FormUpdateProduct = () => {
   const [sizeDetail, setSizeDetail] = useState([]);
   const [productDetail, setProductDetail] = useState(null);
   const [images, setImages] = useState([]);
-  console.log("images///", images);
-  const [arrImageIds, setArrImageIds] = useState([]);
-  console.log("arrImageIds...", arrImageIds);
+  const [arrImageIdDels, setArrImageIdDels] = useState([]);
+  const [imageDetails, setImageDetails] = useState([]);
 
   const validationSchema = Yup.object({
     name: Yup.string().nullable().required("Name is Required"),
@@ -111,33 +110,28 @@ const FormUpdateProduct = () => {
       });
   };
 
-  const convertToBlob = async (filePath, fileName) => {
-    const response = await fetch(filePath);
-    const blob = await response.blob();
-    return new File([blob], fileName);
-  };
+  // const convertToBlob = async (filePath, fileName) => {
+  //   const response = await fetch(filePath);
+  //   const blob = await response.blob();
+  //   return new File([blob], fileName);
+  // };
 
-  const convertToFiles = async (filePaths) => {
-    const files = await Promise.all(
-      filePaths.map(async (filePath) => {
-        const fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
-        return convertToBlob(filePath, fileName);
-      })
-    );
-    setImages(files);
-  };
+  // const convertToFiles = async (filePaths) => {
+  //   const files = await Promise.all(
+  //     filePaths.map(async (filePath) => {
+  //       const fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
+  //       return convertToBlob(filePath, fileName);
+  //     })
+  //   );
+  //   setImages(files);
+  // };
 
   const getProductDetail = async () => {
     getProduct(paramProductCode)
       .then((res) => {
-        const imagesDetail = res?.data?.data?.images?.map(
-          (item) => item?.image
-        );
-        const imageIds = res?.data?.data?.images?.map((item) => item?.id);
         setProductDetail(res?.data?.data);
         setInitialValues(buildInitialValues(res?.data?.data));
-        convertToFiles(imagesDetail);
-        setArrImageIds(imageIds);
+        setImageDetails(res?.data?.data?.images);
       })
       .catch((err) => {
         console.log("err", err);
@@ -169,8 +163,18 @@ const FormUpdateProduct = () => {
   };
 
   const handleDeleteImage = (item, index) => {
-    const newArrFile = images?.filter((item_1, i) => index !== i);
-    setImages(newArrFile);
+    if (item?.id) {
+      const newArrFile = imageDetails?.filter((item_1, i) => index !== i);
+      const arrId = imageDetails
+        ?.filter((item_1, i) => item_1?.id === item?.id)
+        ?.map((j) => j.id);
+      let newArrId = [...arrImageIdDels, ...arrId];
+      setArrImageIdDels(newArrId);
+      setImageDetails(newArrFile);
+    } else {
+      const newArrFile = images?.filter((item_1, i) => index !== i);
+      setImages(newArrFile);
+    }
   };
 
   const buildBodyUpload = (values) => {
@@ -185,7 +189,6 @@ const FormUpdateProduct = () => {
     bodyFormData.append("quantity", Number(values?.quantity));
     bodyFormData.append("supplier", values.supplier);
     bodyFormData.append("category", values.category);
-    // bodyFormData.append("imageDel",);
 
     for (let index = 0; index < arrSize.length; index++) {
       const element = arrSize[index];
@@ -200,6 +203,11 @@ const FormUpdateProduct = () => {
     for (let index = 0; index < images.length; index++) {
       const element = images[index];
       bodyFormData.append("image", element);
+    }
+
+    for (let index = 0; index < arrImageIdDels.length; index++) {
+      const element = arrImageIdDels[index];
+      bodyFormData.append("imageDel", element);
     }
     return bodyFormData;
   };
@@ -383,7 +391,6 @@ const FormUpdateProduct = () => {
                     <div style={{ display: "flex" }}>
                       {images?.length > 0 &&
                         images?.map((item, index) => {
-                          console.log("item...", item);
                           item.preview = URL.createObjectURL(item);
                           return (
                             <div
@@ -416,6 +423,38 @@ const FormUpdateProduct = () => {
                             </div>
                           );
                         })}
+
+                      {imageDetails?.map((item, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            margin: "0 0.4rem",
+                            position: "relative",
+                          }}
+                        >
+                          <img
+                            src={item?.image}
+                            alt="images"
+                            style={{
+                              height: "76px",
+                              width: "112px",
+                            }}
+                          />
+
+                          <div
+                            style={{
+                              cursor: "pointer",
+                              position: "absolute",
+                              right: 0,
+                              top: 0,
+                              fontSize: "1.6rem",
+                            }}
+                            onClick={() => handleDeleteImage(item, index)}
+                          >
+                            <MdOutlineClose />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </Grid>
                 </Grid>

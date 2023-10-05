@@ -7,8 +7,6 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
-import Dropzone from "react-dropzone";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { createProducts, resetState } from "../features/product/productSlice";
 import { createProduct } from "../api/product.api";
 import { filterColorApi } from "../api/color.api";
@@ -127,15 +125,12 @@ const Addproduct = () => {
 
     for (let index = 0; index < size.length; index++) {
       const element = size[index];
-      console.log("element...", typeof element);
       bodyFormData.append("sizeIds", Number(element));
     }
 
     for (let index = 0; index < color.length; index++) {
       const element = color[index];
-      console.log("element...", element);
       bodyFormData.append("colorIds", Number(element));
-      console.log("colorIds../.", bodyFormData);
     }
 
     for (let index = 0; index < images.length; index++) {
