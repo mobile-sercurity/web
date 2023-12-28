@@ -74,7 +74,7 @@ const ModalUpdateStatusOrder = (props) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Confirm
+            Xác nhận trạng thái đơn hàng
           </Typography>
           <Box>
             <Formik
@@ -90,7 +90,7 @@ const ModalUpdateStatusOrder = (props) => {
                   <Box>
                     <Grid container spacing={2}>
                       <Grid item xs={12} md={12} lg={12}>
-                        <Typography> Status</Typography>
+                        {/* <Typography> Status</Typography> */}
                         <Select
                           className="basic-single"
                           classNamePrefix="select"
@@ -99,7 +99,7 @@ const ModalUpdateStatusOrder = (props) => {
                           name="status"
                           id="status"
                           type="text"
-                          placeholder="Select Status"
+                          placeholder="Chọn trạng thái"
                           onBlur={formik.handleBlur}
                           onChange={handleChangeStatus(formik)}
                           value={formik.values.status}
@@ -123,10 +123,10 @@ const ModalUpdateStatusOrder = (props) => {
                             variant="outlined"
                             onClick={handleCancel}
                           >
-                            Cancel
+                            Hủy
                           </Button>
                           <Button type="submit" variant="contained">
-                            Submit
+                            Xác nhận
                           </Button>
                         </Stack>
                       </Grid>

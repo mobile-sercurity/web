@@ -17,30 +17,30 @@ const columns = [
     dataIndex: "id",
   },
   {
-    title: "Name",
+    title: "Tên sản phẩm",
     dataIndex: "name",
     sorter: (a, b) => a.title.length - b.title.length,
   },
   {
-    title: "Category",
+    title: "Phân loại",
     dataIndex: "category",
     sorter: (a, b) => a.category.length - b.category.length,
   },
   {
-    title: "Color",
+    title: "Màu sắc",
     dataIndex: "color",
   },
   {
-    title: "Size",
+    title: "Kích cỡ",
     dataIndex: "size",
   },
   {
-    title: "Price",
+    title: "Giá",
     dataIndex: "price",
     sorter: (a, b) => a.price - b.price,
   },
   {
-    title: "Action",
+    title: "Hoạt động",
     dataIndex: "action",
   },
 ];
@@ -171,12 +171,12 @@ const Productlist = () => {
             alignItems: "center",
           }}
         >
-          <h3 className="mb-4 title">Products</h3>
+          <h3 className="mb-4 title">SẢN PHẨM</h3>
           <Button
             sx={{ marginBottom: "1.5rem" }}
             onClick={handleClickBtnAddProduct}
           >
-            Add product
+            THÊM SẢN PHẨM
           </Button>
         </Box>
         <Box sx={{ marginBottom: "1rem" }}>

@@ -18,19 +18,19 @@ import FormSearchColor from "./color/FormSearchColor";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Code",
+    title: "Mã màu",
     dataIndex: "colorCode",
   },
   {
-    title: "Name",
+    title: "Tên màu",
     dataIndex: "name",
   },
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -145,12 +145,12 @@ const Colorlist = () => {
           alignItems: "center",
         }}
       >
-        <h3 className="mb-4 title">Colors</h3>
+        <h3 className="mb-4 title">MÀU SẮC</h3>
         <Button
           sx={{ marginBottom: "1.5rem" }}
           onClick={handleClickBtnAddColor}
         >
-          Add color
+          Thêm màu sắc
         </Button>
       </Box>
       <Box sx={{ marginBottom: "1rem" }}>

@@ -15,23 +15,23 @@ const columns = [
     dataIndex: "ordering_id",
   },
   {
-    title: "Order Number",
+    title: "Mã hóa đơn",
     dataIndex: "order_number",
   },
   {
-    title: "Order Date",
+    title: "Ngày đặt",
     dataIndex: "order_date",
   },
   {
-    title: "Expiration Date",
+    title: "Ngày hết hạn",
     dataIndex: "expiration_date",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Hoạt động",
     dataIndex: "action",
   },
 ];
@@ -41,8 +41,8 @@ const Orders = () => {
   const navigate = useNavigate();
 
   const intitialValues = {
-    orderNumber: "",
-    status: "",
+    // orderNumber: "",
+    // status: "",
   };
 
   const [allOrderDetail, setAllOrderDetail] = useState([]);
@@ -58,6 +58,18 @@ const Orders = () => {
     };
 
     await filterOrderApi(intitialValues, params).then((res) => {
+      const data = res?.data?.data;
+      setTotalPage(res?.data?.totalPage);
+      setAllOrderDetail(data);
+    });
+  };
+
+  const changeStatusOrder = async (id) => {
+    const data = {
+      id: id,
+      status: "Confirmed",
+    };
+    await filterOrderApi(data).then((res) => {
       const data = res?.data?.data;
       setTotalPage(res?.data?.totalPage);
       setAllOrderDetail(data);
