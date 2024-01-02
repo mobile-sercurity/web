@@ -9,6 +9,7 @@ import { filterOrderApi, getAllOrderApi } from "../api/order.api";
 import { Box, Button, IconButton, Pagination } from "@mui/material";
 import ModalUpdateStatusOrder from "../modal/ModalUpdateStatusOrder";
 import moment from "moment/moment";
+import ConvertStatusOrder from "../common/ConvertStatusOrder";
 const columns = [
   {
     title: "ID",
@@ -95,19 +96,23 @@ const Orders = () => {
 
   const data1 = [];
   for (let i = 0; i < allOrderDetail?.length; i++) {
-    data1.push({
-      ordering_id: allOrderDetail[i].ordering_id,
-      order_number: allOrderDetail[i]?.order_number,
-      order_date: moment(allOrderDetail[i]?.order_date).format("DD-MM-YYYY"),
-      expiration_date: moment(allOrderDetail[i]?.expiration_date).format(
-        "DD-MM-YYYY"
-      ),
-      status: allOrderDetail[i]?.status,
-      action: (
+    let action = (
+      <>
+        <Link
+          to={`/admin/order/${allOrderDetail[i].ordering_id}`}
+          className="fs-3 text-danger"
+        >
+          <BsClipboard />
+        </Link>
+      </>
+    );
+
+    if (allOrderDetail[i]?.status !== "Shipped") {
+      action = (
         <>
           <Link
             to={`/admin/order/${allOrderDetail[i].ordering_id}`}
-            className=" fs-3 text-danger"
+            className="fs-3 text-danger"
           >
             <BsClipboard />
           </Link>
@@ -121,7 +126,37 @@ const Orders = () => {
             <SlNote />
           </IconButton>
         </>
+      );
+    }
+    data1.push({
+      ordering_id: allOrderDetail[i].ordering_id,
+      order_number: allOrderDetail[i]?.order_number,
+      order_date: moment(allOrderDetail[i]?.order_date).format("DD-MM-YYYY"),
+      expiration_date: moment(allOrderDetail[i]?.expiration_date).format(
+        "DD-MM-YYYY"
       ),
+      status: <ConvertStatusOrder item={allOrderDetail[i]?.status} />,
+      // status: allOrderDetail[i]?.status,
+      // action: (
+      //   <>
+      //     <Link
+      //       to={`/admin/order/${allOrderDetail[i].ordering_id}`}
+      //       className=" fs-3 text-danger"
+      //     >
+      //       <BsClipboard />
+      //     </Link>
+      //     <IconButton
+      //       className="fs-3 text-danger"
+      //       sx={{ paddingTop: "0" }}
+      //       onClick={() =>
+      //         handleOpenModalStatus(allOrderDetail[i]?.ordering_id)
+      //       }
+      //     >
+      //       <SlNote />
+      //     </IconButton>
+      //   </>
+      // ),
+      action: action,
     });
   }
   return (

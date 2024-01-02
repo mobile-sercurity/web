@@ -1,18 +1,18 @@
 export const OrderStatusDetail = [
   {
     value: "Cancelled",
-    label: "Cancelled",
+    label: "Hủy Đơn",
   },
   {
     value: "Confirmed",
-    label: "Confirmed",
+    label: "Xác nhận đơn",
   },
   {
     value: "Shipped",
-    label: "Shipped",
+    label: "Đã giao",
   },
   {
     value: "Completed",
-    label: "Completed",
+    label: "Hoàn thành",
   },
 ];
