@@ -12,7 +12,7 @@ const HeaderCommon = (props) => {
         startIcon={<KeyboardDoubleArrowLeftIcon />}
         onClick={handleClickBtn}
       >
-        Return
+        Trở lại
       </Button>
 
       <h3 style={{ marginTop: "1rem" }} className="mb-4 title">

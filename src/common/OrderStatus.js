@@ -1,30 +1,18 @@
 export const OrderStatusDetail = [
   {
-    value: "Not Processed",
-    label: "Not Processed",
-  },
-  {
-    value: "Cash on Delivery",
-    label: "Cash on Delivery",
-  },
-  {
-    value: "Processing",
-    label: "Processing",
-  },
-  {
-    value: "Dispatched",
-    label: "Dispatched",
-  },
-  {
     value: "Cancelled",
-    label: "Cancelled",
+    label: "Hủy Đơn",
   },
   {
-    value: "Delivered",
-    label: "Delivered",
+    value: "Confirmed",
+    label: "Xác nhận đơn",
   },
   {
     value: "Shipped",
-    label: "Shipped",
+    label: "Đã giao",
+  },
+  {
+    value: "Completed",
+    label: "Hoàn thành",
   },
 ];

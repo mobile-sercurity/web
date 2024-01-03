@@ -198,7 +198,7 @@ const Addproduct = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Add Product</h3>
+      <h3 className="mb-4 title">THÊM SẢN PHẨM</h3>
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -208,7 +208,7 @@ const Addproduct = () => {
           {/* product name */}
           <CustomInput
             type="text"
-            label="Enter Product name"
+            label="Nhập tên sản phẩm"
             name="productName"
             onChng={formik.handleChange("productName")}
             onBlr={formik.handleBlur("productName")}
@@ -221,7 +221,7 @@ const Addproduct = () => {
           {/* price */}
           <CustomInput
             type="number"
-            label="Enter Product Price"
+            label="Nhập giá"
             name="price"
             onChng={formik.handleChange("price")}
             onBlr={formik.handleBlur("price")}
@@ -235,7 +235,7 @@ const Addproduct = () => {
           {/* quantity */}
           <CustomInput
             type="number"
-            label="Enter Product quantity"
+            label="Số lượng"
             name="quantity"
             onChng={formik.handleChange("quantity")}
             onBlr={formik.handleBlur("quantity")}
@@ -249,7 +249,7 @@ const Addproduct = () => {
           {/* supplier */}
           <CustomInput
             type="text"
-            label="Enter supplier"
+            label="Nhà cung cấp"
             name="supplier"
             onChng={formik.handleChange("supplier")}
             onBlr={formik.handleBlur("supplier")}
@@ -262,7 +262,7 @@ const Addproduct = () => {
           {/* category */}
           <CustomInput
             type="text"
-            label="Enter category"
+            label="Phân loại sản phẩm"
             name="category"
             onChng={formik.handleChange("category")}
             onBlr={formik.handleBlur("category")}
@@ -277,7 +277,7 @@ const Addproduct = () => {
             mode="multiple"
             allowClear
             className="w-100"
-            placeholder="Select sizes"
+            placeholder="Chọn kích cỡ"
             value={size}
             onChange={(i) => handleChangeSize(i)}
             options={sizeopt}
@@ -292,7 +292,7 @@ const Addproduct = () => {
             mode="multiple"
             allowClear
             className="w-100"
-            placeholder="Select colors"
+            placeholder="Chọn màu"
             value={color}
             onChange={(i) => handleColors(i)}
             options={coloropt}
@@ -349,7 +349,7 @@ const Addproduct = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Product
+            THÊM SẢN PHẨM
           </button>
         </form>
       </div>

@@ -247,7 +247,7 @@ const FormUpdateProduct = () => {
                       fullWidth
                       id="name"
                       name="name"
-                      label="Name"
+                      label="Tên sản phẩm"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       error={formik.touched.name && Boolean(formik.errors.name)}
@@ -260,7 +260,7 @@ const FormUpdateProduct = () => {
                       fullWidth
                       id="price"
                       name="price"
-                      label="Price"
+                      label="Giá"
                       value={formik.values.price}
                       onChange={formik.handleChange}
                       error={
@@ -276,7 +276,7 @@ const FormUpdateProduct = () => {
                       fullWidth
                       id="quantity"
                       name="quantity"
-                      label="quantity"
+                      label="Số lượng"
                       value={formik.values.quantity}
                       onChange={formik.handleChange}
                       error={
@@ -295,7 +295,7 @@ const FormUpdateProduct = () => {
                       fullWidth
                       id="supplier"
                       name="supplier"
-                      label="supplier"
+                      label="Nhà cung cấp"
                       value={formik.values.supplier}
                       onChange={formik.handleChange}
                       error={
@@ -314,7 +314,7 @@ const FormUpdateProduct = () => {
                       fullWidth
                       id="category"
                       name="category"
-                      label="category"
+                      label="Phân loại"
                       value={formik.values.category}
                       onChange={formik.handleChange}
                       error={
@@ -329,7 +329,7 @@ const FormUpdateProduct = () => {
 
                   {/* Size */}
                   <Grid item xs={12} md={12} lg={12}>
-                    <Typography>Size</Typography>
+                    <Typography>Kích cỡ</Typography>
                     <Select
                       className="basic-single"
                       classNamePrefix="select"
@@ -355,7 +355,7 @@ const FormUpdateProduct = () => {
 
                   {/* Color */}
                   <Grid item xs={12} md={12} lg={12}>
-                    <Typography>Color</Typography>
+                    <Typography>Màu sắc</Typography>
                     <Select
                       className="basic-single"
                       classNamePrefix="select"
@@ -466,7 +466,7 @@ const FormUpdateProduct = () => {
                   type="submit"
                   onClick={() => handleOnSubmit(formik)}
                 >
-                  Submit
+                  XÁC NHẬN
                 </Button>
               </Box>
             </Form>

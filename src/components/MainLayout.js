@@ -58,27 +58,27 @@ const MainLayout = () => {
             {
               key: "",
               icon: <AiOutlineDashboard className="fs-4" />,
-              label: "Dashboard",
+              label: "Trang chủ",
             },
             {
               key: "customers",
               icon: <AiOutlineUser className="fs-4" />,
-              label: "Customers",
+              label: "Người dùng",
             },
             {
               key: "Catalog",
               icon: <AiOutlineShoppingCart className="fs-4" />,
-              label: "Catalog",
+              label: "Sản phẩm",
               children: [
                 {
                   key: "product",
                   icon: <AiOutlineShoppingCart className="fs-4" />,
-                  label: "Add Product",
+                  label: "Thêm sản phẩm",
                 },
                 {
                   key: "list-product",
                   icon: <AiOutlineShoppingCart className="fs-4" />,
-                  label: "Product List",
+                  label: "Danh sách sản phẩm",
                 },
                 // {
                 //   key: "brand",
@@ -103,25 +103,25 @@ const MainLayout = () => {
                 {
                   key: "color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Color",
+                  label: "Màu sắc",
                 },
                 {
                   key: "list-color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Color List",
+                  label: "Danh sách màu",
                 },
 
                 {
                   key: "list-size",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Size List",
+                  label: "Danh sách kích cỡ",
                 },
               ],
             },
             {
               key: "orders",
               icon: <FaClipboardList className="fs-4" />,
-              label: "Orders",
+              label: "Đơn hàng",
             },
             // {
             //   key: "marketing",
